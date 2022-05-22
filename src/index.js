@@ -7,12 +7,20 @@ app.use(express.json());
 
 const customers = [];
 
-/**
- * CPF = string
- * name - string
- * id - uuid
- * statement []
- */
+// Middlewares
+function verifyIfExistsAccountCPF(request, response, next) {
+  const { cpf } = request.headers;
+
+  const customer = customers.find((customer) => customer.cpf === cpf);
+
+  if(!customer) {
+    response.status(404).json({ error: 'Customer not found'});
+  };
+
+  request.customer = customer;
+
+  return next();
+}
 
 app.post('/account', (request, response) => {
   const { cpf, name } = request.body;
@@ -33,14 +41,13 @@ app.post('/account', (request, response) => {
   return response.status(200).json(customers);
 });
 
-app.get('/statement', (request, response) => {
-  const { cpf } = request.headers;
-
-  const customer = customers.find((customer) => customer.cpf === cpf);
-
-  if(!customer) {
-    response.status(404).json({ error: 'Customer not found'});
-  };
+/**
+ * app.use(verifyIfExistsAccountCPF)
+ * o Middlewares com app.use() é passado quando você deseja
+ *  que todas as todas utilizem o determinado Middlewares
+ */
+app.get('/statement', verifyIfExistsAccountCPF, (request, response) => {
+  const { customer } = request;
 
   response.json(customer.statement);
 });
