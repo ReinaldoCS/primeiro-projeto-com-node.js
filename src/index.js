@@ -55,3 +55,19 @@ app.get('/statement', verifyIfExistsAccountCPF, (request, response) => {
 app.listen(3333, () => {
   console.log('listening on port: 3333');
 });
+
+app.post('/deposit', verifyIfExistsAccountCPF, (request, response) => {
+  const { description, amount } = request.body;
+  const { customer } = request;
+
+  const statementOperation = { 
+    description, 
+    amount,
+    created_at: new Date(),
+    type: "credit"
+  };
+
+  customer.statement.push(statementOperation);
+
+  response.json(statementOperation);
+})
