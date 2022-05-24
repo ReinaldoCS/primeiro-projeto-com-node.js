@@ -64,10 +64,6 @@ app.get('/statement', verifyIfExistsAccountCPF, (request, response) => {
   response.status(201).json(customer.statement);
 });
 
-app.listen(3333, () => {
-  console.log('listening on port: 3333');
-});
-
 app.post('/deposit', verifyIfExistsAccountCPF, (request, response) => {
   const { description, amount } = request.body;
   const { customer } = request;
@@ -103,4 +99,25 @@ app.post('/withdraw', verifyIfExistsAccountCPF, (request, response) => {
   customer.statement.push(statementOperation);
 
   response.status(201).json(statementOperation);
+});
+
+app.get('/statement/date', verifyIfExistsAccountCPF, (request, response) => {
+  const { customer } = request;
+  const { date } = request.query;
+
+  const dateFormat = new Date(date + " 00:00");
+
+  const statement = customer.statement.filter(
+    (statement) => 
+      new Date(statement.created_at).toDateString() === 
+      new Date(dateFormat).toDateString()
+  );
+
+  // console.log(new Date(dateFormat).toDateString())
+
+  response.status(201).json(statement);
+});
+
+app.listen(3333, () => {
+  console.log('listening on port: 3333');
 });
