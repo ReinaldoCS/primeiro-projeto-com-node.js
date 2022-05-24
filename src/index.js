@@ -118,6 +118,21 @@ app.get('/statement/date', verifyIfExistsAccountCPF, (request, response) => {
   response.status(201).json(statement);
 });
 
+app.put('/account', verifyIfExistsAccountCPF, (request, response) => {
+  const { customer } = request;
+  const { name } = request.body;
+
+  customer.name = name;
+
+  response.status(201).send();
+});
+
+app.get('/account', verifyIfExistsAccountCPF, (request, response) => {
+  const { customer } = request;
+
+  response.status(201).json(customer);
+});
+
 app.listen(3333, () => {
   console.log('listening on port: 3333');
 });
