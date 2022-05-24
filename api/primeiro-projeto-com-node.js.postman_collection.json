@@ -1,0 +1,332 @@
+{
+	"info": {
+		"_postman_id": "731da7e5-beac-4c7b-aa5c-b3d782f1078c",
+		"name": "primeiro-projeto-com-node.js",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "CreateAccount",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (responseCode.code === 200) {\r",
+									"    var body = (JSON.parse(request.data));\r",
+									"    pm.globals.set(\"cpf\", body.cpf);\r",
+									"};"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cpf\": \"1\",\r\n    \"name\": \"Reinaldo Correia\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/account",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Account",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "cpf",
+								"value": "{{cpf}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/account",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Account",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "cpf",
+								"value": "{{cpf}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Reinaldo Santos\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/account",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Account",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "cpf",
+								"value": "",
+								"description": "cpf do usuario criado",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/account",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"account"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "Balance",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "cpf",
+								"value": "{{cpf}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/balance",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"balance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deposit",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "cpf",
+								"value": "{{cpf}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Salario\",\r\n    \"amount\": 150.00\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/deposit",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"deposit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Withdraw",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "cpf",
+								"value": "{{cpf}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Pagamento fatura\",\r\n    \"amount\": 150.00\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/withdraw",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"withdraw"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListStatement",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "cpf",
+								"value": "{{cpf}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/statement",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"statement"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListStatement By Date",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "cpf",
+								"value": "{{cpf}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/statement/date?date=2022-05-24",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"statement",
+								"date"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2022-05-24"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "All Accounts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/account/all",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"account",
+						"all"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"value": "",
+			"type": "default",
+			"disabled": true
+		}
+	]
+}
