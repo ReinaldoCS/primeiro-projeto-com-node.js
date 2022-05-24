@@ -50,7 +50,7 @@ app.post('/account', (request, response) => {
     statement: []
   });
 
-  return response.status(200).json(customers);
+  return response.status(201).send();
 });
 
 /**
@@ -131,6 +131,30 @@ app.get('/account', verifyIfExistsAccountCPF, (request, response) => {
   const { customer } = request;
 
   response.status(201).json(customer);
+});
+
+app.delete('/account', verifyIfExistsAccountCPF, (request, response) => {
+  const { customer } = request;
+
+  customers.splice(customer, 1);
+
+  console.log(customers);
+
+  response.status(201).json(customers);
+});
+
+app.get('/balance', verifyIfExistsAccountCPF, (request, response) => {
+  const { customer } = request;
+
+  const balance = getBalance(customer.statement);
+
+  response.status(201).json(balance);
+});
+
+
+// Para consulta de desenvolvimento
+app.get('/account/all', (request, response) => {
+  response.status(201).json(customers);
 });
 
 app.listen(3333, () => {
